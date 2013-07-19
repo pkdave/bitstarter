@@ -41,19 +41,6 @@ var assertFileExists = function(infile) {
 };
 
 
-var verifyUrl = function(url) {
-  var myurl = url.toString();
-  rest.get(myurl).on('complete', function(result) {
-  if (result instanceof Error) {
-    console.log('Error: ' + result.message);
-    process.exit(1);
-  } 
-});
-  return myurl;
-
-}
-
-
 var cheerioHtmlFile = function(htmlfile) {
   return cheerio.load(fs.readFileSync(htmlfile));
 };
@@ -94,8 +81,6 @@ if(require.main ==module) {
     .option('-f, --file <html_file>', 'Path to index.html', clone(assertFileExists), HTMLFILE_DEFAULT)
     .option('-u, --url <url>', 'Url to html content')
     .parse(process.argv);
-  console.log("The arguments are: \n");
-  console.log(program.file, program.checks, program.url);
   if(program.url) {
     rest.get(program.url).on('complete', checkurldata);
     var checkJson = checkHtmlFile(URL_FILE, program.checks);
